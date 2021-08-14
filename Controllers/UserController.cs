@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PremierAPI.Models;
-using PremierAPI.Models.Interfaces;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using PremierAPI.Repository.Interfaces;
 
 namespace PremierAPI.Controllers

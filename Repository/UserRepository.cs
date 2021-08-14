@@ -2,10 +2,7 @@
 using PremierAPI.Models;
 using PremierAPI.Models.Interfaces;
 using PremierAPI.Repository.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace PremierAPI.Repository
@@ -74,7 +71,7 @@ namespace PremierAPI.Repository
 
         public User Create(User entity)
         {
-            User user = null;
+            User user = new();
             using (var tc = new TransactionScope())
             {
                 using (var client = _helper.Initial())

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using PremierAPI.Models.Interfaces;
+﻿using PremierAPI.Models.Interfaces;
 using System;
 
 namespace PremierAPI.Models
