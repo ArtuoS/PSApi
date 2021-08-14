@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PremierAPI.Models;
 using PremierAPI.Repository.Interfaces;
-using PremierAPI.Models.Interfaces;
 using System.Linq;
 using PremierAPI.Views;
 using AutoMapper;

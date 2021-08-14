@@ -25,7 +25,5 @@ namespace PremierAPI.Models
             if (!string.IsNullOrEmpty(userWithNewProperties.nome) && userWithNewProperties.nome != nome)
                 nome = userWithNewProperties.nome;
         }
-
-
     }
 }
