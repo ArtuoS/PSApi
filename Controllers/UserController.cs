@@ -85,7 +85,7 @@ namespace PremierAPI.Controllers
                 user.UpdatePropertiesByNewUser(new User() { nome = nome });
                 var response = _userRepository.Update(user);
 
-                if (user != null)
+                if (response != null)
                 {
                     return new JsonResult(response);
                 }

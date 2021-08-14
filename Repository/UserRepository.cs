@@ -3,7 +3,6 @@ using PremierAPI.Models;
 using PremierAPI.Models.Interfaces;
 using PremierAPI.Repository.Interfaces;
 using System.Collections.Generic;
-using System.Transactions;
 
 namespace PremierAPI.Repository
 {
@@ -22,12 +21,9 @@ namespace PremierAPI.Repository
         {
             var deletedUser = this.GetById(id);
 
-            using (var tc = new TransactionScope())
+            using (var client = _helper.Initial())
             {
-                using (var client = _helper.Initial())
-                {
-                    _helper.ReponseDeleteAsString(client, $"users/{id}");
-                }
+                _helper.ReponseDeleteAsString(client, $"users/{id}");
             }
 
             return deletedUser;
@@ -37,13 +33,10 @@ namespace PremierAPI.Repository
         {
             List<User> users = new();
 
-            using (var tc = new TransactionScope())
+            using (var client = _helper.Initial())
             {
-                using (var client = _helper.Initial())
-                {
-                    var content = _helper.ReponseReaderAsString(client, "users");
-                    users = JsonConvert.DeserializeObject<List<User>>(content);
-                }
+                var content = _helper.ReponseReaderAsString(client, "users");
+                users = JsonConvert.DeserializeObject<List<User>>(content);
             }
 
             return users;
@@ -55,13 +48,10 @@ namespace PremierAPI.Repository
 
             if (_utilities.IsValidId(id))
             {
-                using (var tc = new TransactionScope())
+                using (var client = _helper.Initial())
                 {
-                    using (var client = _helper.Initial())
-                    {
-                        var content = _helper.ReponseReaderAsString(client, $"users/{id}");
-                        user = JsonConvert.DeserializeObject<User>(content);
-                    }
+                    var content = _helper.ReponseReaderAsString(client, $"users/{id}");
+                    user = JsonConvert.DeserializeObject<User>(content);
                 }
             }
 
@@ -72,15 +62,12 @@ namespace PremierAPI.Repository
         {
             User user = new();
 
-            using (var tc = new TransactionScope())
+            using (var client = _helper.Initial())
             {
-                using (var client = _helper.Initial())
-                {
-                    entity.SetId(GenerateId());
-                    var serializedUser = JsonConvert.SerializeObject(entity);
-                    var content = _helper.ReponseCreateAsString(client, $"users", serializedUser);
-                    user = JsonConvert.DeserializeObject<User>(content);
-                }
+                entity.SetId(GenerateId());
+                var serializedUser = JsonConvert.SerializeObject(entity);
+                var content = _helper.ReponseCreateAsString(client, $"users", serializedUser);
+                user = JsonConvert.DeserializeObject<User>(content);
             }
 
             return user;
@@ -90,14 +77,11 @@ namespace PremierAPI.Repository
         {
             User user = new();
 
-            using (var tc = new TransactionScope())
+            using (var client = _helper.Initial())
             {
-                using (var client = _helper.Initial())
-                {
-                    var serializedUser = JsonConvert.SerializeObject(entity);
-                    var content = _helper.ReponseUpdateAsString(client, $"users/{entity.id}", serializedUser);
-                    user = JsonConvert.DeserializeObject<User>(content);
-                }
+                var serializedUser = JsonConvert.SerializeObject(entity);
+                var content = _helper.ReponseUpdateAsString(client, $"users/{entity.id}", serializedUser);
+                user = JsonConvert.DeserializeObject<User>(content);
             }
 
             return user;
