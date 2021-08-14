@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PremierAPI.Models.Interfaces;
+﻿using PremierAPI.Models.Interfaces;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;

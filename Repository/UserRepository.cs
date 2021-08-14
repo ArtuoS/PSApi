@@ -3,8 +3,6 @@ using PremierAPI.Models;
 using PremierAPI.Models.Interfaces;
 using PremierAPI.Repository.Interfaces;
 using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace PremierAPI.Repository

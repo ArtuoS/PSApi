@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PremierAPI.Models;
-using System.Threading.Tasks;
 using PremierAPI.Repository.Interfaces;
-using System;
 using PremierAPI.Models.Interfaces;
 using System.Linq;
 using PremierAPI.Views;
@@ -28,18 +26,30 @@ namespace PremierAPI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Create an User
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/users/")]
-        public async Task<ActionResult> Create([FromBody] UserViewModel userModel)
+        public ActionResult Create([FromBody] UserViewModel userModel)
         {
             var user = _mapper.Map<User>(userModel);
             var response = _userRepository.Create(user);
-            return new JsonResult(response);
+            if (response != null)
+                return new JsonResult(response);
+            return StatusCode(404);
         }
 
+        /// <summary>
+        /// Get a specific User from PremierSoft Api by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/users/{id}")]
-        public async Task<ActionResult> Get(int id)
+        public ActionResult Get(int id)
         {
             var response = _userRepository.GetById(id);
             if (response == null)
@@ -47,9 +57,13 @@ namespace PremierAPI.Controllers
             return new JsonResult(response);
         }
 
+        /// <summary>
+        /// Get all Users from PremierSoft Api
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/users/")]
-        public async Task<ActionResult> Get()
+        public ActionResult Get()
         {
             var response = _userRepository.GetAll();
             if (!response.Any())
@@ -57,18 +71,24 @@ namespace PremierAPI.Controllers
             return new JsonResult(response);
         }
 
+        /// <summary>
+        /// Update the name of an User by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="nome"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("api/users/{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] string nome)
+        public ActionResult Update(int id, [FromBody] string nome)
         {
             var user = _userRepository.GetById(id);
 
-            if (_utilities.IsValidId(user.id.ToInt()))
+            if (user != null)
             {
                 user.UpdatePropertiesByNewUser(new User() { nome = nome });
                 var response = _userRepository.Update(user);
 
-                if (_utilities.IsValidId(response.id.ToInt()))
+                if (user != null)
                 {
                     return new JsonResult(response);
                 }
@@ -77,12 +97,19 @@ namespace PremierAPI.Controllers
             return StatusCode(404);
         }
 
+        /// <summary>
+        /// Delete an User by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("api/users/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public ActionResult Delete(int id)
         {
             var response = _userRepository.Delete(id);
-            return new JsonResult(response);
+            if (response != null)
+                return new JsonResult(response);
+            return StatusCode(404);
         }
     }
 }
