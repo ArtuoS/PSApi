@@ -1,8 +1,6 @@
-﻿using PremierAPI.Models.Interfaces;
+﻿using Newtonsoft.Json;
+using PremierAPI.Models.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PremierAPI.Models
 {
@@ -11,7 +9,10 @@ namespace PremierAPI.Models
         public string GetDefaultUri()
             => @"https://60d27cb2858b410017b2dd51.mockapi.io/ps/";
 
-        public bool IsIdValid(int? id)
+        public bool IsValidId(int? id)
             => id > 0 && id != null;
+
+        public bool IsValidDate(DateTime date)
+            => date != null;
     }
 }

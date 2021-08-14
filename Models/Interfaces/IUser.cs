@@ -1,5 +1,4 @@
 ﻿namespace PremierAPI.Models.Interfaces
 {
-    interface IUser
-    { }
+    interface IUser { }
 }

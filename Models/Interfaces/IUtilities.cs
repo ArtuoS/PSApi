@@ -8,6 +8,6 @@ namespace PremierAPI.Models.Interfaces
     public interface IUtilities
     {
         string GetDefaultUri();
-        bool IsIdValid(int? id);
+        bool IsValidId(int? id);
     }
 }

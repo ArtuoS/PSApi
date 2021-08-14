@@ -8,9 +8,9 @@ namespace PremierAPI.Repository.Interfaces
     public interface IRepository<T>
     {
         T GetById(int id);
-        IEnumerable<T> GetAll();
-        T Insert(T entity);
+        List<T> GetAll();
+        T Create(T entity);
         T Update(T entity);
-        T Delete(T entity);
+        T Delete(int id);
     }
 }
