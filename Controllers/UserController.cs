@@ -11,13 +11,11 @@ namespace PremierAPI.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUtilities _utilities;
         private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository, IUtilities utilities, IMapper mapper)
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            _utilities = utilities;
             _mapper = mapper;
         }
 
