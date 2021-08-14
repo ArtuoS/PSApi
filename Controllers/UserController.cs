@@ -80,15 +80,13 @@ namespace PremierAPI.Controllers
         {
             var user = _userRepository.GetById(id);
 
-            if (user != null)
+            if (user != null && nome != null)
             {
                 user.UpdatePropertiesByNewUser(new User() { nome = nome });
                 var response = _userRepository.Update(user);
 
                 if (response != null)
-                {
                     return new JsonResult(response);
-                }
             }
 
             return StatusCode(404);
