@@ -1,4 +1,5 @@
 ﻿using PremierAPI.Models.Interfaces;
+using PremierAPI.Repository.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,23 +8,26 @@ namespace PremierAPI.Models
 {
     public class User : IUser
     {
-        public User() { }
-
-        public User(string nome, DateTime criadoEm)
-        {
-            Nome = nome;
-            CriadoEm = criadoEm;
-        }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        [Key]
+        public string id { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime CriadoEm { get; set; }
+        public DateTime criadoEm { get; set; }
 
         [Required]
         [MaxLength(150)]
-        public string Nome { get; set; }
+        public string nome { get; set; }
+
+        public void SetId(string id)
+            => this.id = id;
+
+        public void UpdatePropertiesByNewUser(User userWithNewProperties)
+        {
+            if (!string.IsNullOrEmpty(userWithNewProperties.nome) && userWithNewProperties.nome != nome)
+                nome = userWithNewProperties.nome;
+        }
+
+
     }
 }

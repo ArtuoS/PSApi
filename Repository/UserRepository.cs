@@ -3,6 +3,8 @@ using PremierAPI.Models;
 using PremierAPI.Models.Interfaces;
 using PremierAPI.Repository.Interfaces;
 using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace PremierAPI.Repository
@@ -20,7 +22,7 @@ namespace PremierAPI.Repository
 
         public User Delete(int id)
         {
-            var user = this.GetById(id);
+            var deletedUser = this.GetById(id);
 
             using (var tc = new TransactionScope())
             {
@@ -30,8 +32,7 @@ namespace PremierAPI.Repository
                 }
             }
 
-
-            return user;
+            return deletedUser;
         }
 
         public List<User> GetAll()
@@ -52,7 +53,7 @@ namespace PremierAPI.Repository
 
         public User GetById(int id)
         {
-            User user = null;
+            User user = new();
 
             if (_utilities.IsValidId(id))
             {
@@ -72,10 +73,12 @@ namespace PremierAPI.Repository
         public User Create(User entity)
         {
             User user = new();
+
             using (var tc = new TransactionScope())
             {
                 using (var client = _helper.Initial())
                 {
+                    entity.SetId(GenerateId());
                     var serializedUser = JsonConvert.SerializeObject(entity);
                     var content = _helper.ReponseCreateAsString(client, $"users", serializedUser);
                     user = JsonConvert.DeserializeObject<User>(content);
@@ -87,18 +90,22 @@ namespace PremierAPI.Repository
 
         public User Update(User entity)
         {
-            User user = null;
+            User user = new();
+
             using (var tc = new TransactionScope())
             {
                 using (var client = _helper.Initial())
                 {
                     var serializedUser = JsonConvert.SerializeObject(entity);
-                    var content = _helper.ReponseUpdateAsString(client, $"users/{entity.Id}", serializedUser);
+                    var content = _helper.ReponseUpdateAsString(client, $"users/{entity.id}", serializedUser);
                     user = JsonConvert.DeserializeObject<User>(content);
                 }
             }
 
             return user;
         }
+
+        public string GenerateId()
+            => (GetAll().Count + 1).MyToString();
     }
 }

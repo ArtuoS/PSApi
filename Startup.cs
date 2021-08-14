@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using PremierAPI.Models;
 using PremierAPI.Models.Interfaces;
 using PremierAPI.Repository;
 using PremierAPI.Repository.Interfaces;
+using PremierAPI.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,14 @@ namespace PremierAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UserViewModel, User>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+
+            services.AddSingleton(mapper);
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUser, User>();
             services.AddTransient<IUtilities, Utilities>();

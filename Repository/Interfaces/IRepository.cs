@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PremierAPI.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PremierAPI.Repository.Interfaces
 {
